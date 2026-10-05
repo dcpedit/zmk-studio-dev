@@ -37,3 +37,12 @@ export const KeyboardAndConsumer: Story = {
     usagePages: [{ id: 7 }, { id: 12 }],
   },
 };
+
+export const ShiftedNumberSelected: Story = {
+  args: {
+    label: "Key",
+    usagePages: [{ id: 7 }, { id: 12 }],
+    // LS(N1)
+    value: (0x02 << 24) | (0x07 << 16) | 0x1e,
+  },
+};

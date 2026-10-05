@@ -1,5 +1,5 @@
 import {
-  hid_usage_get_labels,
+  hid_usage_get_metadata,
   hid_usage_page_and_id_from_usage,
 } from "../hid-usages";
 
@@ -30,7 +30,7 @@ export const HidUsageLabel = ({ hid_usage }: HidUsageLabelProps) => {
 
   page &= 0xff;
 
-  let labels = hid_usage_get_labels(page, id);
+  let labels = hid_usage_get_metadata(page, id);
 
   const mods = implicit_mods_from_usage(hid_usage);
   const prefix = mods.map((m) => m.symbol).join("");
