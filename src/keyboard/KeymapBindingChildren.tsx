@@ -1,21 +1,40 @@
 import { GetBehaviorDetailsResponse } from "@zmkfirmware/zmk-studio-ts-client/behaviors";
-import { findMatchingParameterSet, getParameterDisplay } from "../behaviors/behaviorBindingUtils";
+import { behaviorHasParameters, findMatchingParameterSet, getParameterDisplay } from "../behaviors/behaviorBindingUtils";
+import BehaviorShortNames from "./behavior-short-names.json";
 
 export interface KeyBinding {
   param1: number;
   param2: number;
 }
 
+interface BehaviorShortName {
+  short?: string;
+  label?: string;
+}
+
+const shortNames: Record<string, BehaviorShortName> = BehaviorShortNames;
+
+/**
+ * Behaviors without parameters (Bootloader, Transparent, Caps Word...) have nothing
+ * but their name to show, so it goes in the body of the key instead of the header.
+ */
+export const showsNameInBody = (behavior: GetBehaviorDetailsResponse | undefined) =>
+  !!behavior && !behaviorHasParameters(behavior.metadata);
+
 export const getBindingChildren = (
   behavior: GetBehaviorDetailsResponse | undefined,
   binding: KeyBinding,
   layers: { id: number; name: string }[] = []
-): JSX.Element | JSX.Element[] => {
-  // If no behavior metadata, try to show behavior name
-  if (!behavior || !behavior.metadata) {
+): JSX.Element => {
+  if (!behavior) {
+    return <div className="relative"></div>;
+  }
+
+  if (showsNameInBody(behavior)) {
+    const label = shortNames[behavior.displayName]?.label ?? behavior.displayName;
     return (
-      <div className="relative text-xs opacity-50">
-        {behavior?.displayName || ""}
+      <div className="relative text-[0.5rem] leading-tight px-0.5 text-center break-words">
+        {label}
       </div>
     );
   }
@@ -25,8 +44,11 @@ export const getBindingChildren = (
   const matchingSet = findMatchingParameterSet(binding.param1, behavior.metadata, layerIds);
 
   // Get displays for both parameters
-  const param1Display = 
-    getParameterDisplay(binding.param1, behavior.metadata.flatMap(m => m.param1), layers);
+  const param1Display = getParameterDisplay(
+    binding.param1,
+    matchingSet?.param1 ?? behavior.metadata.flatMap(m => m.param1),
+    layers
+  );
 
   const param2Display = matchingSet ?
     getParameterDisplay(binding.param2, matchingSet.param2, layers) :
@@ -34,20 +56,20 @@ export const getBindingChildren = (
 
   // Both parameters present and should be displayed
   if (param1Display !== null && param2Display !== null) {
-    return [
-      <div key="p2" className="relative text-s">
-        {param2Display}
-      </div>,
-      <div key="p1" className="relative text-xs ml-1 mt-2">
-        {param1Display}
+    // Stack the primary value (e.g. the tap key or profile number) above the
+    // secondary one (hold key/layer, command name) so long names don't overflow.
+    return (
+      <div className="relative flex flex-col items-center leading-none text-center mt-1">
+        <div>{param2Display}</div>
+        <div className="text-xs px-0.5 mt-0.5">{param1Display}</div>
       </div>
-    ];
+    );
   }
 
   // Only param1 should be displayed
   if (param1Display !== null) {
     return (
-      <div className="relative text-base">
+      <div className={`relative text-center leading-tight ${typeof param1Display === "string" ? "text-[0.5rem] px-0.5 mt-2" : ""}`}>
         {param1Display}
       </div>
     );
@@ -56,7 +78,7 @@ export const getBindingChildren = (
   // Only param2 should be displayed (unusual but handle it)
   if (param2Display !== null) {
     return (
-      <div className="relative text-base">
+      <div className="relative">
         {param2Display}
       </div>
     );

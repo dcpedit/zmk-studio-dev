@@ -8,7 +8,7 @@ import {
   LayoutZoom,
   PhysicalLayout as PhysicalLayoutComp,
 } from "./PhysicalLayout";
-import { getBindingChildren } from "./KeymapBindingChildren";
+import { getBindingChildren, showsNameInBody } from "./KeymapBindingChildren";
 
 type BehaviorMap = Record<number, GetBehaviorDetailsResponse>;
 
@@ -58,7 +58,7 @@ export const Keymap = ({
 
     return {
       id: `${keymap.layers[selectedLayerIndex].id}-${i}`,
-      header: behavior?.displayName || "Unknown",
+      header: showsNameInBody(behavior) ? "" : behavior?.displayName || "Unknown",
       x: k.x / 100.0,
       y: k.y / 100.0,
       width: k.width / 100,

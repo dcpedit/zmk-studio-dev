@@ -15,6 +15,15 @@ export function findMatchingParameterSet(
 }
 
 /**
+ * Whether a behavior takes any parameters at all (e.g. Bootloader, Transparent don't).
+ */
+export function behaviorHasParameters(metadata: BehaviorBindingParametersSet[] | undefined): boolean {
+  return !!metadata?.some(set =>
+    [...set.param1, ...set.param2].some(d => !d.nil)
+  );
+}
+
+/**
  * Get a readable display for a parameter value based on its metadata.
  * Returns a JSX element, string, number, or null if nothing should be displayed.
  * Returns null when the parameter shouldn't be displayed (empty metadata or nil type).
@@ -29,38 +38,33 @@ export function getParameterDisplay(
     return null;
   }
 
-  // Check if it's a constant with a name
-  if (paramDescriptions.every(v => v.constant !== undefined)) {
-    const match = paramDescriptions.find(v => v.constant === value);
-    if (match?.name) {
-      return match.name;
-    }
-    // If no match found in constants, don't display
+  // A parameter can accept a mix of value types (e.g. named constants plus a range),
+  // so display according to whichever description this value actually matches.
+  const layerIds = layers?.map(l => l.id) ?? [];
+  const desc = paramDescriptions.find(d => validateValue(layerIds, value, [d]));
+
+  if (!desc) {
     return null;
   }
 
-  // For single parameter descriptions, check the type
-  if (paramDescriptions.length === 1) {
-    const desc = paramDescriptions[0];
-
-    if (desc.hidUsage) {
-      return <HidUsageLabel hid_usage={value}/>;
-    }
-
-    if (desc.layerId && layers) {
-      // Look up the layer name by ID
-      const layer = layers.find(l => l.id === value);
-      return layer?.name || `Layer ${value}`;
-    }
-
-    if (desc.range) {
-      return value;
-    }
-
-    // If it's a nil type or unrecognized, don't display
-    return null;
+  if (desc.constant !== undefined) {
+    return desc.name || null;
   }
 
-  // For multiple parameter descriptions or unhandled cases, don't display
+  if (desc.hidUsage) {
+    return <HidUsageLabel hid_usage={value}/>;
+  }
+
+  if (desc.layerId) {
+    // Look up the layer name by ID
+    const layer = layers?.find(l => l.id === value);
+    return layer?.name || `Layer ${value}`;
+  }
+
+  if (desc.range) {
+    return value;
+  }
+
+  // If it's a nil type or unrecognized, don't display
   return null;
 }
