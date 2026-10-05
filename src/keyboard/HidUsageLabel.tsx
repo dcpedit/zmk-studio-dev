@@ -33,22 +33,30 @@ export const HidUsageLabel = ({ hid_usage }: HidUsageLabelProps) => {
   let labels = hid_usage_get_metadata(page, id);
 
   const mods = implicit_mods_from_usage(hid_usage);
-  const prefix = mods.map((m) => m.symbol).join("");
   const short = remove_prefix(labels.short);
+
+  // Keycap-style legends ("1 !") already show the shifted character,
+  // so LS(N1) is labeled "!" rather than "⇧1 !".
+  const legend = short?.match(/^(\S+) (\S+)$/);
+  const shifted = legend && mods.some((m) => m.name === "Shift") ? legend[2] : undefined;
+  const prefix = mods
+    .filter((m) => !shifted || m.name !== "Shift")
+    .map((m) => m.symbol)
+    .join("");
 
   return (
     <span
       className="@[10em]:before:content-[attr(data-long-content)] @[6em]:before:content-[attr(data-med-content)] before:content-[attr(aria-label)]"
-      aria-label={prefix + (short ?? "")}
+      aria-label={prefix + (shifted ?? short ?? "")}
       title={
         mods.length > 0
           ? [...mods.map((m) => m.name), short].join(" + ")
           : undefined
       }
-      data-med-content={prefix + (remove_prefix(labels.med || labels.short) ?? "")}
+      data-med-content={prefix + (shifted ?? remove_prefix(labels.med || labels.short) ?? "")}
       data-long-content={
         prefix +
-        (remove_prefix(labels.long || labels.med || labels.short) ?? "")
+        (shifted ?? remove_prefix(labels.long || labels.med || labels.short) ?? "")
       }
     />
   );
