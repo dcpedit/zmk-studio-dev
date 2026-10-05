@@ -26,119 +26,119 @@
     "27": { "category": "Letters" },
     "28": { "category": "Letters" },
     "29": { "category": "Letters" },
-    "30": { "short": "1 !", "category": "Numbers + Punctuation" },
-    "31": { "short": "2 @", "category": "Numbers + Punctuation" },
-    "32": { "short": "3 #", "category": "Numbers + Punctuation" },
-    "33": { "short": "4 $", "category": "Numbers + Punctuation" },
-    "34": { "short": "5 %", "category": "Numbers + Punctuation" },
-    "35": { "short": "6 ^", "category": "Numbers + Punctuation" },
-    "36": { "short": "7 &", "category": "Numbers + Punctuation" },
-    "37": { "short": "8 *", "category": "Numbers + Punctuation" },
-    "38": { "short": "9 (", "category": "Numbers + Punctuation" },
-    "39": { "short": "0 )", "category": "Numbers + Punctuation" },
+    "30": { "short": "1 !", "category": "Numbers/Punctuation" },
+    "31": { "short": "2 @", "category": "Numbers/Punctuation" },
+    "32": { "short": "3 #", "category": "Numbers/Punctuation" },
+    "33": { "short": "4 $", "category": "Numbers/Punctuation" },
+    "34": { "short": "5 %", "category": "Numbers/Punctuation" },
+    "35": { "short": "6 ^", "category": "Numbers/Punctuation" },
+    "36": { "short": "7 &", "category": "Numbers/Punctuation" },
+    "37": { "short": "8 *", "category": "Numbers/Punctuation" },
+    "38": { "short": "9 (", "category": "Numbers/Punctuation" },
+    "39": { "short": "0 )", "category": "Numbers/Punctuation" },
     "40": {
       "short": "Ret",
       "med": "Return",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "41": {
       "short": "Esc",
       "long": "Escape",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "42": {
       "short": "BkSp",
       "med": "BkSpc",
       "long": "Backspace",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
-    "43": { "category": "Function + Navigation" },
-    "44": { "short": "␣", "med": "Space", "category": "Function + Navigation" },
+    "43": { "category": "Function/Navigation/Mods" },
+    "44": { "short": "␣", "med": "Space", "category": "Function/Navigation/Mods" },
     "45": {
       "short": "- _",
       "med": "Dash",
-      "category": "Numbers + Punctuation"
+      "category": "Numbers/Punctuation"
     },
     "46": {
       "short": "= +",
       "med": "Equals",
-      "category": "Numbers + Punctuation"
+      "category": "Numbers/Punctuation"
     },
-    "47": { "short": "[ {", "category": "Numbers + Punctuation" },
-    "48": { "short": "] }", "category": "Numbers + Punctuation" },
-    "49": { "short": "\\ |", "category": "Numbers + Punctuation" },
+    "47": { "short": "[ {", "category": "Numbers/Punctuation" },
+    "48": { "short": "] }", "category": "Numbers/Punctuation" },
+    "49": { "short": "\\ |", "category": "Numbers/Punctuation" },
     "50": {
       "short": "NUHS",
       "long": "NonUS Hash",
       "category": "International"
     },
-    "51": { "short": "; :", "category": "Numbers + Punctuation" },
-    "52": { "short": "' \"", "category": "Numbers + Punctuation" },
-    "53": { "short": "` ~", "category": "Numbers + Punctuation" },
-    "54": { "short": ", <", "category": "Numbers + Punctuation" },
-    "55": { "short": ". >", "category": "Numbers + Punctuation" },
-    "56": { "short": "/ ?", "category": "Numbers + Punctuation" },
+    "51": { "short": "; :", "category": "Numbers/Punctuation" },
+    "52": { "short": "' \"", "category": "Numbers/Punctuation" },
+    "53": { "short": "` ~", "category": "Numbers/Punctuation" },
+    "54": { "short": ", <", "category": "Numbers/Punctuation" },
+    "55": { "short": ". >", "category": "Numbers/Punctuation" },
+    "56": { "short": "/ ?", "category": "Numbers/Punctuation" },
     "57": {
       "short": "Cap",
       "med": "CapsLk",
       "long": "Caps Lock",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
-    "58": { "category": "Function + Navigation" },
-    "59": { "category": "Function + Navigation" },
-    "60": { "category": "Function + Navigation" },
-    "61": { "category": "Function + Navigation" },
-    "62": { "category": "Function + Navigation" },
-    "63": { "category": "Function + Navigation" },
-    "64": { "category": "Function + Navigation" },
-    "65": { "category": "Function + Navigation" },
-    "66": { "category": "Function + Navigation" },
-    "67": { "category": "Function + Navigation" },
-    "68": { "category": "Function + Navigation" },
-    "69": { "category": "Function + Navigation" },
+    "58": { "category": "Function/Navigation/Mods" },
+    "59": { "category": "Function/Navigation/Mods" },
+    "60": { "category": "Function/Navigation/Mods" },
+    "61": { "category": "Function/Navigation/Mods" },
+    "62": { "category": "Function/Navigation/Mods" },
+    "63": { "category": "Function/Navigation/Mods" },
+    "64": { "category": "Function/Navigation/Mods" },
+    "65": { "category": "Function/Navigation/Mods" },
+    "66": { "category": "Function/Navigation/Mods" },
+    "67": { "category": "Function/Navigation/Mods" },
+    "68": { "category": "Function/Navigation/Mods" },
+    "69": { "category": "Function/Navigation/Mods" },
     "70": {
       "short": "PrSc",
       "long": "Print Scr",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "71": {
       "short": "ScLk",
       "long": "ScrollLock",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "72": {
       "short": "Paus",
       "med": "Pause",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "73": {
       "short": "Ins",
       "med": "Insert",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
-    "74": { "category": "Function + Navigation" },
+    "74": { "category": "Function/Navigation/Mods" },
     "75": {
       "short": "PgUp",
       "med": "PageUp",
       "long": "Page Up",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "76": {
       "short": "Del",
       "med": "Delete",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
-    "77": { "category": "Function + Navigation" },
+    "77": { "category": "Function/Navigation/Mods" },
     "78": {
       "short": "PgDn",
       "med": "PageDn",
       "long": "Page Down",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
-    "79": { "short": "→", "category": "Function + Navigation" },
-    "80": { "short": "←", "category": "Function + Navigation" },
-    "81": { "short": "↓", "category": "Function + Navigation" },
-    "82": { "short": "↑", "category": "Function + Navigation" },
+    "79": { "short": "→", "category": "Function/Navigation/Mods" },
+    "80": { "short": "←", "category": "Function/Navigation/Mods" },
+    "81": { "short": "↓", "category": "Function/Navigation/Mods" },
+    "82": { "short": "↑", "category": "Function/Navigation/Mods" },
     "83": {
       "short": "Num",
       "med": "NumLck",
@@ -180,7 +180,7 @@
       "short": "Menu",
       "med": "Menu",
       "long": "Applicat'n (Menu)",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "102": {
       "short": "Power",
@@ -258,47 +258,47 @@
     "224": {
       "short": "Ctrl",
       "med": "L Ctrl",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "225": {
       "short": "Shft",
       "med": "L Shft",
       "long": "L Shift",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "226": {
       "short": "Alt",
       "med": "L Alt",
       "long": "Left Alt",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "227": {
       "short": "GUI",
       "med": "L GUI",
       "long": "Left GUI",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "228": {
       "short": "Ctrl",
       "med": "R Ctrl",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "229": {
       "short": "Shft",
       "med": "R Shft",
       "long": "R Shift",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "230": {
       "short": "AltG",
       "med": "AltGr",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     },
     "231": {
       "short": "GUI",
       "med": "R GUI",
       "long": "Right GUI",
-      "category": "Function + Navigation"
+      "category": "Function/Navigation/Mods"
     }
   },
   "12": {

@@ -4,6 +4,7 @@ import {
   CheckboxGroup,
   ComboBox,
   Input,
+  Key,
   Label,
   ListBox,
   ListBoxItem,
@@ -12,9 +13,10 @@ import {
   TabList,
   TabPanel,
   Tabs,
+  Text,
 } from "react-aria-components";
 import { hid_usage_page_get_ids, hid_usage_get_metadata } from "../hid-usages";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 export interface HidUsagePage {
@@ -145,13 +147,36 @@ const HidUsageGrid = ({
 
   const categoryOrder = [
     "Letters",
-    "Numbers + Punctuation",
-    "Function + Navigation",
+    "Numbers/Punctuation",
+    "Function/Navigation/Mods",
     "Numpad",
     "Apps/Media/Special",
     "International",
     "Other",
   ];
+  const selectedCategory = useMemo(() => {
+    if (selectedKey === null) {
+      return undefined;
+    }
+
+    return Object.keys(categorizedUsages).find((category) =>
+      categorizedUsages[category].some(
+        (usage) => ((usage.pageId << 16) | usage.Id) === selectedKey,
+      ),
+    );
+  }, [categorizedUsages, selectedKey]);
+
+  // Follow the selected key to its tab whenever a different key is selected,
+  // while still letting the user browse other tabs in the meantime.
+  const [activeTab, setActiveTab] = useState<Key | undefined>(selectedCategory);
+  useEffect(() => {
+    if (selectedCategory) {
+      setActiveTab(selectedCategory);
+    }
+    // Only follow on selection changes, not when the user switches tabs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedKey]);
+
   const sortedCategories = Object.keys(categorizedUsages).sort((a, b) => {
     const indexA = categoryOrder.indexOf(a);
     const indexB = categoryOrder.indexOf(b);
@@ -162,15 +187,25 @@ const HidUsageGrid = ({
   });
 
   return (
-    <Tabs className="flex flex-col">
+    <Tabs
+      className="flex flex-col"
+      selectedKey={activeTab}
+      onSelectionChange={setActiveTab}
+    >
       <TabList className="flex border-b">
         {sortedCategories.map((category) => (
           <Tab
             key={category}
             id={category}
-            className="px-4 py-2 cursor-default outline-none rac-selected:border-b-2 rac-selected:border-primary rac-focus-visible:ring-2 rac-focus-visible:ring-primary rounded-t-md"
+            className="px-4 py-2 flex items-center whitespace-nowrap cursor-default outline-none rac-selected:border-b-2 rac-selected:border-primary rac-focus-visible:ring-2 rac-focus-visible:ring-primary rounded-t-md"
           >
             {category}
+            {category === selectedCategory && (
+              <span
+                className="inline-block size-1.5 ml-1.5 rounded-full bg-primary"
+                aria-label="(contains selected key)"
+              />
+            )}
           </Tab>
         ))}
       </TabList>
@@ -273,14 +308,14 @@ export const HidUsagePicker = ({
 
   return (
     <div className="flex flex-col gap-2 relative">
-      <div className="flex gap-2 items-center">
-        {label && <Label id="hid-usage-picker">{label}:</Label>}
-        <CheckboxGroup
-          aria-label="Implicit Modifiers"
-          className="grid grid-flow-col gap-x-px auto-cols-[minmax(min-content,1fr)] content-stretch divide-x rounded-md"
-          value={mods}
-          onChange={modifiersChanged}
-        >
+      {label && <Label id="hid-usage-picker">{label}:</Label>}
+      <CheckboxGroup
+        className="flex flex-wrap gap-x-2 gap-y-1 items-center"
+        value={mods}
+        onChange={modifiersChanged}
+      >
+        <Label>Implicit Modifiers:</Label>
+        <div className="grid grid-flow-col gap-x-px auto-cols-[minmax(min-content,1fr)] content-stretch divide-x rounded-md">
           {all_mods.map((m) => (
             <Checkbox
               key={m}
@@ -290,8 +325,11 @@ export const HidUsagePicker = ({
               {mod_labels[m]}
             </Checkbox>
           ))}
-        </CheckboxGroup>
-      </div>
+        </div>
+        <Text slot="description" className="opacity-70 basis-full">
+          Held down together with the key, e.g. L Shift + 1 types "!".
+        </Text>
+      </CheckboxGroup>
       <HidUsageGrid
         value={value}
         onValueChanged={selectionChanged}
