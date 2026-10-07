@@ -14,6 +14,8 @@ use transport::serial::{serial_connect, serial_list_devices};
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_cli::init())
+        // Reopen the window at the size and position it was closed at
+        .plugin(tauri_plugin_window_state::Builder::default().build())
         .manage(ActiveConnection {
             conn: Mutex::new(None),
         })
