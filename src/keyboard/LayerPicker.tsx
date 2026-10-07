@@ -89,7 +89,7 @@ const EditLabelModal = ({
           Cancel
         </button>
         <button
-          className="py-1.5 px-2 ml-4 rounded-md bg-gray-100 text-black hover:bg-gray-300"
+          className="py-1.5 px-2 ml-4 rounded-md bg-base-200 text-base-content hover:bg-base-300"
           type="button"
           onClick={() => {
             handleSave();
@@ -183,7 +183,7 @@ export const LayerPicker = ({
           <button
             type="button"
             disabled={!canAdd}
-            className="hover:text-primary-content ml-1 hover:bg-primary rounded-sm disabled:text-gray-500 disabled:hover:bg-base-300 disabled:cursor-not-allowed"
+            className="hover:text-primary-content ml-1 hover:bg-primary rounded-sm disabled:opacity-50 disabled:hover:bg-base-300 disabled:cursor-not-allowed"
             onClick={onAddClicked}
           >
             <Plus className="size-4" />

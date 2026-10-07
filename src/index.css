@@ -10,8 +10,207 @@
   }
 }
 
-html {
-  color-scheme: light dark;
+/*
+ * Themes. Each theme sets the app palette (--color-*) plus the keycap
+ * colorway (--key-*) and the case the keys sit in (--plate). With no
+ * data-theme attribute the app follows the OS light/dark setting.
+ *
+ * The selectors work on any element, so a swatch can preview a theme by
+ * carrying its own data-theme attribute.
+ */
+:root,
+[data-theme="studio-light"] {
+  color-scheme: light;
+  --color-primary: oklch(49.12% 0.3096 285.75);
+  --color-primary-content: oklch(0.89824 0.06192 285.75);
+  --color-secondary: oklch(69.71% 0.329 342.55);
+  --color-accent: oklch(76.76% 0.184 183.61);
+  --color-base-content: #1f2937;
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: #f2f2f2;
+  --color-base-300: #e5e6e6;
+
+  --key-alpha: #fbfbfc;
+  --key-alpha-text: #1f2937;
+  --key-mod: #d5d8de;
+  --key-mod-text: #1f2937;
+  --key-accent: oklch(76.76% 0.184 183.61);
+  --key-accent-text: #10302c;
+  --plate: #3a3f47;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --color-primary: oklch(65.69% 0.196 285.75);
+    --color-primary-content: oklch(0.13138 0.0392 285.75);
+    --color-secondary: oklch(74.8% 0.26 342.55);
+    --color-accent: oklch(74.51% 0.167 183.61);
+    --color-base-content: #a6adbb;
+    --color-base-100: #1d232a;
+    --color-base-200: #191e24;
+    --color-base-300: #15191e;
+
+    --key-alpha: #3a424d;
+    --key-alpha-text: #dfe3ea;
+    --key-mod: #2a3038;
+    --key-mod-text: #a6adbb;
+    --key-accent: oklch(74.51% 0.167 183.61);
+    --key-accent-text: #0e2422;
+    --plate: #0d1014;
+  }
+}
+
+[data-theme="studio-dark"] {
+  color-scheme: dark;
+  --color-primary: oklch(65.69% 0.196 285.75);
+  --color-primary-content: oklch(0.13138 0.0392 285.75);
+  --color-secondary: oklch(74.8% 0.26 342.55);
+  --color-accent: oklch(74.51% 0.167 183.61);
+  --color-base-content: #a6adbb;
+  --color-base-100: #1d232a;
+  --color-base-200: #191e24;
+  --color-base-300: #15191e;
+
+  --key-alpha: #3a424d;
+  --key-alpha-text: #dfe3ea;
+  --key-mod: #2a3038;
+  --key-mod-text: #a6adbb;
+  --key-accent: oklch(74.51% 0.167 183.61);
+  --key-accent-text: #0e2422;
+  --plate: #0d1014;
+}
+
+/* Rose on cream with charcoal mods, after the classic pink-and-black set */
+[data-theme="olivia"] {
+  color-scheme: light;
+  --color-primary: #c4706a;
+  --color-primary-content: #fff6f3;
+  --color-secondary: #2d2a2b;
+  --color-accent: #e3a79e;
+  --color-base-content: #3a3335;
+  --color-base-100: #fbf6f3;
+  --color-base-200: #f3e9e4;
+  --color-base-300: #e9dbd4;
+
+  --key-alpha: #f2e6e1;
+  --key-alpha-text: #2d2a2b;
+  --key-mod: #2d2a2b;
+  --key-mod-text: #e8b1a7;
+  --key-accent: #e3a79e;
+  --key-accent-text: #2d2a2b;
+  --plate: #d9c3bb;
+}
+
+/* Sage and cream */
+[data-theme="botanical"] {
+  color-scheme: light;
+  --color-primary: #4f7a5e;
+  --color-primary-content: #f2f1e6;
+  --color-secondary: #b98a5a;
+  --color-accent: #8fae8f;
+  --color-base-content: #2f3e34;
+  --color-base-100: #f6f4ec;
+  --color-base-200: #ebe8dc;
+  --color-base-300: #dedac9;
+
+  --key-alpha: #ece8da;
+  --key-alpha-text: #3f6a4f;
+  --key-mod: #7d9c86;
+  --key-mod-text: #f2f0e4;
+  --key-accent: #c9a074;
+  --key-accent-text: #2f3e34;
+  --plate: #3f5a48;
+}
+
+/* Neon magenta and cyan on deep purple */
+[data-theme="laser"] {
+  color-scheme: dark;
+  --color-primary: #ff3ea5;
+  --color-primary-content: #1a0b2e;
+  --color-secondary: #38e1ff;
+  --color-accent: #38e1ff;
+  --color-base-content: #d9c8ff;
+  --color-base-100: #1e1236;
+  --color-base-200: #170d2b;
+  --color-base-300: #110921;
+
+  --key-alpha: #2e1b52;
+  --key-alpha-text: #ff5cb5;
+  --key-mod: #46237a;
+  --key-mod-text: #49e4ff;
+  --key-accent: #ff3ea5;
+  --key-accent-text: #1a0b2e;
+  --plate: #0a0515;
+}
+
+[data-theme="nord"] {
+  color-scheme: dark;
+  --color-primary: #88c0d0;
+  --color-primary-content: #2e3440;
+  --color-secondary: #b48ead;
+  --color-accent: #a3be8c;
+  --color-base-content: #d8dee9;
+  --color-base-100: #2e3440;
+  --color-base-200: #292e39;
+  --color-base-300: #242933;
+
+  --key-alpha: #4c566a;
+  --key-alpha-text: #eceff4;
+  --key-mod: #3b4252;
+  --key-mod-text: #88c0d0;
+  --key-accent: #d08770;
+  --key-accent-text: #2e3440;
+  --plate: #1e222a;
+}
+
+[data-theme="mocha"] {
+  color-scheme: dark;
+  --color-primary: #cba6f7;
+  --color-primary-content: #1e1e2e;
+  --color-secondary: #f5c2e7;
+  --color-accent: #94e2d5;
+  --color-base-content: #cdd6f4;
+  --color-base-100: #1e1e2e;
+  --color-base-200: #181825;
+  --color-base-300: #11111b;
+
+  --key-alpha: #45475a;
+  --key-alpha-text: #cdd6f4;
+  --key-mod: #313244;
+  --key-mod-text: #b4befe;
+  --key-accent: #fab387;
+  --key-accent-text: #1e1e2e;
+  --plate: #0b0b12;
+}
+
+/* For images that need a light and a dark variant */
+:root {
+  --light-only: inline;
+  --dark-only: none;
+}
+
+[data-theme="studio-dark"],
+[data-theme="laser"],
+[data-theme="nord"],
+[data-theme="mocha"] {
+  --light-only: none;
+  --dark-only: inline;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --light-only: none;
+    --dark-only: inline;
+  }
+}
+
+.light-only {
+  display: var(--light-only);
+}
+
+.dark-only {
+  display: var(--dark-only);
 }
 
 #root {
@@ -21,8 +220,84 @@ html {
 
 body {
   margin: 0;
+  background: var(--color-base-100);
+  color: var(--color-base-content);
   min-width: 320px;
 
   width: 100vw;
   height: 100vh;
+}
+
+@layer components {
+  /*
+   * A sculpted keycap: the button is the skirt and ::before is the dished top
+   * the legends sit on. --cap and --cap-text pick the colorway for the key.
+   */
+  .keycap {
+    --cap: var(--key-alpha);
+    --cap-text: var(--key-alpha-text);
+    color: var(--cap-text);
+    /* Main legend size; the smaller sub-labels set their own sizes in rem */
+    font-size: 0.8125rem;
+    background: color-mix(in oklch, var(--cap) 78%, black);
+    border-radius: 6px;
+    padding-bottom: 4px;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklch, var(--cap) 60%, black),
+      0 2px 3px rgb(0 0 0 / 0.35);
+  }
+
+  .keycap:hover {
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklch, var(--cap) 60%, black),
+      0 12px 24px rgb(0 0 0 / 0.4);
+  }
+
+  .keycap::before {
+    content: "";
+    position: absolute;
+    inset: 2px 4px 6px;
+    border-radius: 5px;
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--cap) 85%, white),
+      var(--cap) 70%
+    );
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2);
+  }
+
+  .keycap[data-kind="mod"] {
+    --cap: var(--key-mod);
+    --cap-text: var(--key-mod-text);
+  }
+
+  .keycap[data-kind="accent"] {
+    --cap: var(--key-accent);
+    --cap-text: var(--key-accent-text);
+  }
+
+  .keycap[data-selected] {
+    --cap: var(--color-primary);
+    --cap-text: var(--color-primary-content);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* The case the keys sit in; a spread shadow so it never shifts the layout */
+  .keyboard-plate {
+    border-radius: 10px;
+    background: var(--plate);
+    box-shadow:
+      0 0 0 12px var(--plate),
+      0 14px 40px 10px rgb(0 0 0 / 0.35);
+  }
+
+  /* Faint dot grid behind the keyboard */
+  .canvas-dots {
+    background-image: radial-gradient(
+      color-mix(in oklch, var(--color-base-content) 14%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+  }
 }

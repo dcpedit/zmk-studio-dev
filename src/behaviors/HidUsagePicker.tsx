@@ -13,11 +13,13 @@ import {
   TabList,
   TabPanel,
   Tabs,
-  Text,
 } from "react-aria-components";
 import { hid_usage_page_get_ids, hid_usage_get_metadata } from "../hid-usages";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { Tooltip } from "../misc/Tooltip";
+import { UsageIcon } from "../keyboard/UsageIcon";
+import { hasUsageIcon } from "../keyboard/usageIcons";
 
 export interface HidUsagePage {
   id: number;
@@ -111,6 +113,13 @@ const HidUsageGrid = ({
 
   const selectedKey = value !== undefined ? mask_mods(value) : null;
 
+  // The full name, since grid buttons only fit a short label
+  const getFullName = (usage: Usage) =>
+    (hid_usage_get_metadata(usage.pageId, usage.Id)?.long || usage.Name).replace(
+      /^Keyboard /,
+      "",
+    );
+
   const getButtonLabel = (usage: Usage) => {
     const metadata = hid_usage_get_metadata(usage.pageId, usage.Id);
     if (metadata?.med) {
@@ -192,12 +201,14 @@ const HidUsageGrid = ({
       selectedKey={activeTab}
       onSelectionChange={setActiveTab}
     >
-      <TabList className="flex border-b">
+      {/* Folder tabs: the selected one alone shares the panel's background and
+          covers the list's bottom border (-mb-px) so it joins the panel */}
+      <TabList className="flex gap-1 px-1 border-b">
         {sortedCategories.map((category) => (
           <Tab
             key={category}
             id={category}
-            className="px-4 py-2 flex items-center whitespace-nowrap cursor-default outline-none rac-selected:border-b-2 rac-selected:border-primary rac-focus-visible:ring-2 rac-focus-visible:ring-primary rounded-t-md"
+            className="rac-selected:-mb-px px-4 py-2 flex items-center whitespace-nowrap cursor-pointer outline-none rounded-t-md border border-transparent bg-base-300 opacity-70 transition-colors hover:opacity-100 hover:bg-base-100 rac-selected:opacity-100 rac-selected:bg-base-100 rac-selected:border-base-border rac-selected:border-b-base-100 rac-selected:shadow-[inset_0_2px_0_var(--color-primary)] rac-focus-visible:ring-2 rac-focus-visible:ring-primary"
           >
             {category}
             {category === selectedCategory && (
@@ -213,7 +224,7 @@ const HidUsageGrid = ({
         <TabPanel
           key={category}
           id={category}
-          className="min-h-56 max-h-56 overflow-y-auto flex flex-wrap justify-start content-start gap-1 p-1 border border-t-0 rounded-b rac-focus-visible:ring-2 rac-focus-visible:ring-primary"
+          className="min-h-56 max-h-56 overflow-y-auto flex flex-wrap justify-start content-start gap-1 p-1 border border-t-0 rounded-b bg-base-100 rac-focus-visible:ring-2 rac-focus-visible:ring-primary"
         >
           {category === "Other" ? (
             <ComboBox
@@ -226,7 +237,7 @@ const HidUsageGrid = ({
             >
               <Label className="text-sm">Search for another key</Label>
               <div className="relative flex items-center">
-                <Input className="p-1 rounded-l" />
+                <Input className="p-1 rounded-l border bg-base-100" />
                 <Button className="rounded-r bg-primary text-primary-content w-8 h-8 flex justify-center items-center">
                   <ChevronDown className="size-4" />
                 </Button>
@@ -251,14 +262,21 @@ const HidUsageGrid = ({
           ) : (
             categorizedUsages[category].map((usage) => {
               const usageValue = (usage.pageId << 16) | usage.Id;
+              const icon = hid_usage_get_metadata(usage.pageId, usage.Id)?.icon;
               return (
-                <Button
-                  key={usageValue}
-                  onPress={() => onValueChanged(usageValue)}
-                  className={`w-16 h-16 p-1 rounded border text-center flex items-center justify-center ${selectedKey === usageValue ? "bg-primary text-primary-content" : "bg-base-200 hover:bg-base-300"}`}
-                >
-                  {getButtonLabel(usage)}
-                </Button>
+                <Tooltip key={usageValue} label={getFullName(usage)} delay={400} placement="bottom">
+                  <Button
+                    aria-label={getFullName(usage)}
+                    onPress={() => onValueChanged(usageValue)}
+                    className={`w-16 h-16 p-1 rounded border text-center flex items-center justify-center ${selectedKey === usageValue ? "bg-primary text-primary-content" : "bg-base-200 hover:bg-base-300"}`}
+                  >
+                    {hasUsageIcon(icon) ? (
+                      <UsageIcon icon={icon} label={getFullName(usage)} className="size-6" />
+                    ) : (
+                      getButtonLabel(usage)
+                    )}
+                  </Button>
+                </Tooltip>
               );
             })
           )}
@@ -308,13 +326,33 @@ export const HidUsagePicker = ({
 
   return (
     <div className="flex flex-col gap-2 relative">
-      {label && <Label id="hid-usage-picker">{label}:</Label>}
+      {label && (
+        <Label
+          id="hid-usage-picker"
+          className="text-xs font-semibold uppercase tracking-wider opacity-70 border-b pb-1"
+        >
+          {label}
+        </Label>
+      )}
       <CheckboxGroup
         className="flex flex-wrap gap-x-2 gap-y-1 items-center"
         value={mods}
         onChange={modifiersChanged}
       >
-        <Label>Implicit Modifiers:</Label>
+        <div className="flex items-center gap-1">
+          <Label>Implicit Modifiers:</Label>
+          <Tooltip
+            label={'Held down together with the key, e.g. L Shift + 1 types "!".'}
+            delay={200}
+          >
+            <Button
+              aria-label="About implicit modifiers"
+              className="size-4 rounded-full border text-[0.7rem] leading-none font-semibold flex items-center justify-center opacity-70 hover:opacity-100 cursor-help"
+            >
+              ?
+            </Button>
+          </Tooltip>
+        </div>
         <div className="grid grid-flow-col gap-x-px auto-cols-[minmax(min-content,1fr)] content-stretch divide-x rounded-md">
           {all_mods.map((m) => (
             <Checkbox
@@ -326,9 +364,6 @@ export const HidUsagePicker = ({
             </Checkbox>
           ))}
         </div>
-        <Text slot="description" className="opacity-70 basis-full">
-          Held down together with the key, e.g. L Shift + 1 types "!".
-        </Text>
       </CheckboxGroup>
       <HidUsageGrid
         value={value}

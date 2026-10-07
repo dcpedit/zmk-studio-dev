@@ -1,8 +1,12 @@
 import { PropsWithChildren } from "react";
 import BehaviorShortNames from "./behavior-short-names.json";
 
+// Which part of the keycap colorway a key takes, like alphas/mods/accents on a keycap set
+export type KeyKind = "alpha" | "mod" | "accent";
+
 interface KeyProps {
   selected?: boolean;
+  kind?: KeyKind;
   width: number;
   height: number;
   oneU: number;
@@ -36,6 +40,7 @@ const shortenHeader = (header: string | undefined) => {
 
 export const Key = ({
   selected = false,
+  kind = "alpha",
   width,
   height,
   oneU,
@@ -48,8 +53,9 @@ export const Key = ({
 
   return (
     <button
-      className={`group rounded relative flex justify-center items-center cursor-pointer transition-all hover:shadow-xl hover:ring-1 hover:ring-gray-300 hover:scale-125 ${selected ? "bg-primary text-primary-content" : "bg-base-100 text-base-content"
-        }`}
+      className="keycap group relative flex justify-center items-center cursor-pointer transition-all hover:scale-125"
+      data-kind={kind}
+      data-selected={selected || undefined}
       style={{
         width: `${pixelWidth}px`,
         height: `${pixelHeight}px`,
@@ -57,7 +63,7 @@ export const Key = ({
       }}
       onClick={onClick}
     >
-      <div className={`absolute text-xs ${selected ? "text-primary-content" : "z1text-base-content"} opacity-80 top-1 text-nowrap left-1/2 font-light -translate-x-1/2 text-center`}>{shortenHeader(header)}</div>
+      <div className="absolute text-keycap-xs opacity-80 top-1 text-nowrap left-1/2 font-light -translate-x-1/2 text-center">{shortenHeader(header)}</div>
       {children}
     </button>
   );

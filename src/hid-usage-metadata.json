@@ -302,13 +302,13 @@
     }
   },
   "12": {
-    "111": { "short": "🔆", "category": "Apps/Media/Special" },
-    "112": { "short": "🔅", "category": "Apps/Media/Special" },
-    "181": { "short": "⇥", "category": "Apps/Media/Special" },
-    "182": { "short": "⇤", "category": "Apps/Media/Special" },
-    "205": { "short": "⏯️", "category": "Apps/Media/Special" },
-    "226": { "short": "🔇", "category": "Apps/Media/Special" },
-    "233": { "short": "🔊", "category": "Apps/Media/Special" },
-    "234": { "short": "🔉", "category": "Apps/Media/Special" }
+    "111": { "short": "Bri+", "long": "Display Brightness Increment", "icon": "brightness-up", "category": "Apps/Media/Special" },
+    "112": { "short": "Bri-", "long": "Display Brightness Decrement", "icon": "brightness-down", "category": "Apps/Media/Special" },
+    "181": { "short": "Next", "long": "Scan Next Track", "icon": "next-track", "category": "Apps/Media/Special" },
+    "182": { "short": "Prev", "long": "Scan Previous Track", "icon": "previous-track", "category": "Apps/Media/Special" },
+    "205": { "short": "Play", "long": "Play/Pause", "icon": "play-pause", "category": "Apps/Media/Special" },
+    "226": { "short": "Mute", "long": "Mute", "icon": "mute", "category": "Apps/Media/Special" },
+    "233": { "short": "Vol+", "long": "Volume Increment", "icon": "volume-up", "category": "Apps/Media/Special" },
+    "234": { "short": "Vol-", "long": "Volume Decrement", "icon": "volume-down", "category": "Apps/Media/Special" }
   }
 }

@@ -2,6 +2,8 @@ import {
   hid_usage_get_metadata,
   hid_usage_page_and_id_from_usage,
 } from "../hid-usages";
+import { UsageIcon } from "./UsageIcon";
+import { hasUsageIcon } from "./usageIcons";
 
 export interface HidUsageLabelProps {
   hid_usage: number;
@@ -43,6 +45,21 @@ export const HidUsageLabel = ({ hid_usage }: HidUsageLabelProps) => {
     .filter((m) => !shifted || m.name !== "Shift")
     .map((m) => m.symbol)
     .join("");
+
+  if (hasUsageIcon(labels.icon)) {
+    const name = labels.long || short || "";
+    return (
+      // Block-level flex so the icon isn't sat on a text baseline, which
+      // leaves descender space below it and pushes it off center
+      <span
+        className="flex items-center justify-center"
+        title={[...mods.map((m) => m.name), name].join(" + ")}
+      >
+        {prefix}
+        <UsageIcon icon={labels.icon} label={name} className="size-[1.25em]" />
+      </span>
+    );
+  }
 
   return (
     <span

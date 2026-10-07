@@ -28,7 +28,7 @@ export const LicenseNoticeModal = ({
             here:
           </p>
           <button
-            className="p-1.5 rounded-md bg-gray-100 text-black hover:bg-gray-300"
+            className="p-1.5 rounded-md bg-base-200 text-base-content hover:bg-base-300"
             onClick={onClose}
           >
             Close

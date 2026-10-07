@@ -125,6 +125,7 @@ dependencies = [
  "tauri",
  "tauri-build",
  "tauri-plugin-cli",
+ "tauri-plugin-window-state",
  "tokio",
  "tokio-serial",
  "uuid",
@@ -2189,7 +2190,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c2a198fb6b0eada2a8df47933734e6d35d350665a33a3593d7164fa52c75c19"
 dependencies = [
  "cfg-if",
- "windows-targets 0.48.5",
+ "windows-targets 0.52.6",
 ]
 
 [[package]]
@@ -3964,6 +3965,21 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0bec7345a851082058b1c7c516a48a9e1d173d2439baa35e27606fc4fbce3409"
 dependencies = [
  "clap",
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-plugin",
+ "thiserror",
+]
+
+[[package]]
+name = "tauri-plugin-window-state"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47f5bdd802302c72e6e52f786d4d7abc976a8a7938b05c121ae689106bcd4a40"
+dependencies = [
+ "bitflags 2.5.0",
  "log",
  "serde",
  "serde_json",

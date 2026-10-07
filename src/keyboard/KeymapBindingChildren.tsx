@@ -61,7 +61,7 @@ export const getBindingChildren = (
     return (
       <div className="relative flex flex-col items-center leading-none text-center mt-1">
         <div>{param2Display}</div>
-        <div className="text-xs px-0.5 mt-0.5">{param1Display}</div>
+        <div className="text-keycap-xs px-0.5 mt-0.5">{param1Display}</div>
       </div>
     );
   }

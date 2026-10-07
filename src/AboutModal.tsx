@@ -193,7 +193,7 @@ export const AboutModal = ({ open, onClose }: AboutModalProps) => {
           </ExternalLink>
         </p>
         <button
-          className="p-1.5 rounded-md bg-gray-100 text-black hover:bg-gray-300"
+          className="p-1.5 rounded-md bg-base-200 text-base-content hover:bg-base-300"
           onClick={onClose}
         >
           Close
@@ -231,16 +231,19 @@ export const AboutModal = ({ open, onClose }: AboutModalProps) => {
 
                   return (
                     <a key={v.name} href={v.url} target="_blank">
-                      <picture aria-label={v.name}>
-                        {v.darkModeImg && (
-                          <source
-                            className={maxSizeVariants[s.size]}
-                            srcSet={v.darkModeImg}
-                            media="(prefers-color-scheme: dark)"
-                          />
-                        )}
-                        <img className={maxSizeVariants[s.size]} src={v.img} />
-                      </picture>
+                      {/* Follows the app theme rather than the OS, so not a <picture> */}
+                      <img
+                        className={`${maxSizeVariants[s.size]} ${v.darkModeImg ? "light-only" : ""}`}
+                        src={v.img}
+                        alt={v.name}
+                      />
+                      {v.darkModeImg && (
+                        <img
+                          className={`${maxSizeVariants[s.size]} dark-only`}
+                          src={v.darkModeImg}
+                          alt={v.name}
+                        />
+                      )}
                     </a>
                   );
                 })}
