@@ -15,6 +15,7 @@ import { ConnectionContext } from "./rpc/ConnectionContext";
 import { ChevronDown, Undo2, Redo2, Save, Trash2 } from "lucide-react";
 import { Tooltip } from "./misc/Tooltip";
 import { GenericModal } from "./GenericModal";
+import { ThemePicker } from "./theme/ThemePicker";
 
 export interface AppHeaderProps {
   connectedDeviceLabel?: string;
@@ -123,6 +124,7 @@ export const AppHeader = ({
         </Popover>
       </MenuTrigger>
       <div className="flex justify-end gap-1 px-2">
+        <ThemePicker />
         {onUndo && (
           <Tooltip label="Undo">
             <Button

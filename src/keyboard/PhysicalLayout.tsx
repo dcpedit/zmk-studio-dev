@@ -5,11 +5,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { Key } from "./Key";
+import { Key, KeyKind } from "./Key";
 
 export type KeyPosition = PropsWithChildren<{
   id: string;
   header?: string;
+  kind?: KeyKind;
   width: number;
   height: number;
   x: number;
@@ -143,7 +144,7 @@ export const PhysicalLayout = ({
 
   return (
     <div
-      className="relative"
+      className="relative keyboard-plate"
       style={{
         height: bottomMost * oneU + "px",
         width: rightMost * oneU + "px",

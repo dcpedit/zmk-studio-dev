@@ -8,6 +8,7 @@ interface HidMetadata {
   med?: string;
   long?: string;
   category?: string;
+  icon?: string;
 }
 
 const overrides: Record<string, Record<string, HidMetadata>> = HidSupplementaryMetadata;
@@ -45,7 +46,7 @@ export const hid_usage_get_label = (
 export const hid_usage_get_metadata = (
   usage_page: number,
   usage_id: number
-): { short?: string; med?: string; long?: string, category?: string } => {
+): HidMetadata => {
   if(overrides[usage_page.toString()]?.[usage_id.toString()]?.short) {
     return overrides[usage_page.toString()]?.[usage_id.toString()];
   } else {
