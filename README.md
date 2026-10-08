@@ -11,12 +11,18 @@ report issues with these additions here, not to the upstream project.
 
 - **Keymap import and export.** Export your current keymap as a `.keymap` file, or import
   one from disk. Imports show a review dialog of what will change, apply with progress,
-  and can be undone in one step. The desktop app uses native open/save dialogs.
+  and can be undone in one step. The desktop app uses native open/save dialogs. Built on
+  [zmk-studio#171](https://github.com/zmkfirmware/zmk-studio/pull/171) by
+  [@max-hill-4](https://github.com/max-hill-4).
 - **Grid-based key picker.** Choose HID usages from a grid of buttons instead of a text
   input, with the Basic category split into Letters, Numbers + Punctuation, and
-  Function + Navigation, plus an International category.
+  Function + Navigation, plus an International category. From
+  [zmk-studio#159](https://github.com/zmkfirmware/zmk-studio/pull/159) by
+  [@awkannan](https://github.com/awkannan).
 - **Richer key legends.** Every binding is labelled from its behavior metadata, including
   layer-tap, mod-tap and transparent keys, and shifted keycaps show their shifted legend.
+  Builds on [zmk-studio#135](https://github.com/zmkfirmware/zmk-studio/pull/135) by
+  [@BafS](https://github.com/BafS).
 - **Themes.** Selectable UI themes, keycap colorways and media-key icons.
 - **Better desktop window.** A larger default window that remembers its size and position.
 
@@ -85,6 +91,21 @@ GitHub Pages.
 Bump `version` in `package.json`, `src-tauri/tauri.conf.json` and `src-tauri/Cargo.toml`
 before tagging. Keep the version numeric (`X.Y.Z`); the Windows installer does not accept
 pre-release suffixes.
+
+## Credits
+
+Several features started as open pull requests against upstream ZMK Studio that had not
+been reviewed. They are included here with their original commits and authorship intact:
+
+| Feature | Upstream PR | Author |
+| --- | --- | --- |
+| Keymap import and export | [zmk-studio#171](https://github.com/zmkfirmware/zmk-studio/pull/171) | [@max-hill-4](https://github.com/max-hill-4) |
+| Grid key picker and category split | [zmk-studio#159](https://github.com/zmkfirmware/zmk-studio/pull/159) | [@awkannan](https://github.com/awkannan) |
+| Layer-tap and mod-tap indicators on keys | [zmk-studio#135](https://github.com/zmkfirmware/zmk-studio/pull/135) | [@BafS](https://github.com/BafS) |
+
+The `.keymap` parser, exporter and import review flow, the behavior-metadata key labels,
+themes and the remaining changes were written for this fork. Thanks to the ZMK
+contributors for ZMK Studio itself.
 
 ## License
 
