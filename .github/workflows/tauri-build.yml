@@ -80,6 +80,20 @@ jobs:
       - name: install frontend dependencies
         run: npm ci
 
+      - name: ensure draft release exists (tags only)
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists."
+          else
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
+              --title "ZMK Studio DcpEdit $GITHUB_REF_NAME" \
+              --notes-file .github/release-notes.md
+          fi
+
       - uses: tauri-apps/tauri-action@v0
         name: build
         env:
@@ -93,16 +107,7 @@ jobs:
           releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('ZMK Studio DcpEdit {0}', github.ref_name) || '' }}
           releaseDraft: true
           prerelease: false
-          releaseBody: |
-            Unofficial build of ZMK Studio from https://github.com/${{ github.repository }}.
-
-            These binaries are **not code-signed**. First launch:
-
-            - **macOS**: the DMG mounts normally, but opening the app shows "Apple could not verify…". Open *System Settings → Privacy & Security*, scroll down and click **Open Anyway**. Or run `xattr -cr "/Applications/ZMK Studio DcpEdit.app"` once in Terminal.
-            - **Windows**: SmartScreen will warn. Click **More info → Run anyway**.
-            - **Linux**: `chmod +x` the AppImage, or install the `.deb`.
-
-            See the README for details and for the browser version, which needs no download.
+          includeUpdaterJson: false
           args: ${{ matrix.args }}
 
       - uses: actions/upload-artifact@v4

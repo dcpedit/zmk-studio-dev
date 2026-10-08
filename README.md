@@ -83,13 +83,25 @@ npm run tauri build  # desktop bundles in src-tauri/target/
 
 ## Releasing
 
-Pushing a tag such as `v0.4.0` runs the `tauri-build` workflow, which builds macOS
-(universal), Windows, Linux x64 and Linux arm64 bundles and attaches them to a **draft**
-GitHub Release. Review the draft, then publish it. Pushes to `dev` deploy the web app to
-GitHub Pages.
+1. Bump `version` in `package.json`, `src-tauri/tauri.conf.json` and `src-tauri/Cargo.toml`,
+   run `cargo check` in `src-tauri` to refresh `Cargo.lock`, and commit.
+2. Tag and push: `git tag vX.Y.Z && git push origin dev vX.Y.Z`.
+3. The `tauri-build` workflow creates a **draft** release from
+   [.github/release-notes.md](.github/release-notes.md), builds macOS (universal), Windows,
+   Linux x64 and Linux arm64, and attaches the bundles. Review the draft, then publish it.
+4. Re-run the `github-pages` workflow (Actions → github-pages → Run workflow) so the
+   download page picks up the new release links.
 
-Bump `version` in `package.json`, `src-tauri/tauri.conf.json` and `src-tauri/Cargo.toml`
-before tagging. Keep the version numeric (`X.Y.Z`); the Windows installer does not accept
+If the workflow fails at "ensure draft release exists" with a permissions error, create the
+draft yourself and re-run the failed jobs:
+
+```bash
+gh release create vX.Y.Z --draft --title "ZMK Studio DcpEdit vX.Y.Z" --notes-file .github/release-notes.md
+```
+
+Pushes to `dev` deploy the web app to GitHub Pages automatically.
+
+Keep the version numeric (`X.Y.Z`); the Windows installer does not accept
 pre-release suffixes.
 
 ## Credits
