@@ -16,6 +16,10 @@ on:
     branches:
       - dev
       - main
+    # Docs-only changes do not need a 4-platform build. (Ignored for tag pushes.)
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
     tags:
       - "v*"
 

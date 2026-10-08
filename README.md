@@ -20,6 +20,14 @@ report issues with these additions here, not to the upstream project.
 - **Themes.** Selectable UI themes, keycap colorways and media-key icons.
 - **Better desktop window.** A larger default window that remembers its size and position.
 
+### Screenshots
+
+The Laser and Olivia themes, each with matching keycap colorways:
+
+| Laser | Olivia |
+| --- | --- |
+| ![Laser theme](docs/screenshots/theme-laser.png) | ![Olivia theme](docs/screenshots/theme-olivia.png) |
+
 ## Use it
 
 ### In the browser (no download)
