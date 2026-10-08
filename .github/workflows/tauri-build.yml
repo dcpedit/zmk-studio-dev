@@ -1,13 +1,26 @@
 name: "tauri-build"
 
+# Builds unsigned desktop bundles for every supported platform.
+#
+# - Pushes to `dev` / `main` and manual runs upload the bundles as workflow
+#   artifacts (handy for smoke-testing a branch).
+# - Pushing a `v*` tag additionally creates a *draft* GitHub Release with the
+#   bundles attached. Review the draft, then publish it.
+#
+# Binaries are NOT code-signed or notarized; see the README for the one-time
+# steps users need on macOS and Windows.
+
 on:
   workflow_dispatch:
   push:
-  release:
-    types: [published]
+    branches:
+      - dev
+      - main
+    tags:
+      - "v*"
 
 jobs:
-  publish-tauri:
+  build-tauri:
     permissions:
       contents: write
     strategy:
@@ -43,31 +56,14 @@ jobs:
             gir1.2-javascriptcoregtk-4.1=2.44.0-2 \
             gir1.2-webkit2-4.1=2.44.0-2
 
-      - name: Get release
-        id: get_release
-        if: github.event_name == 'release'
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: install dependencies (windows only)
-        if: matrix.platform == 'windows-latest'
-        run: |
-          nuget.exe install Microsoft.Trusted.Signing.Client -Version 1.0.53 -x
-
-      - name: Set up Windows Kit into PATH (windows only)
-        if: matrix.platform == 'windows-latest'
-        run: |
-          echo "${env:ProgramFiles(x86)}\Windows Kits\10\bin\10.0.26100.0\x64\" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
       - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: "npm" # Set this to npm, yarn or pnpm.
+          cache: "npm"
 
       - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable # Set this to dtolnay/rust-toolchain@nightly
+        uses: dtolnay/rust-toolchain@stable
         with:
           # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
@@ -78,35 +74,36 @@ jobs:
           workspaces: "./src-tauri -> target"
 
       - name: install frontend dependencies
-        # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: npm ci
-
-      - uses: azure/login@v2
-        if: matrix.platform == 'windows-latest'
-        with:
-          enable-AzPSSession: true
-          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
 
       - uses: tauri-apps/tauri-action@v0
         name: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          # Used by scripts/generate-release-data.js to populate the download page.
+          RELEASE_REPO: ${{ github.repository }}
         with:
-          releaseId: ${{ steps.get_release.outputs.id }}
+          # Only create a release when building from a tag; branch builds just
+          # upload workflow artifacts below.
+          tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('ZMK Studio Dev {0}', github.ref_name) || '' }}
+          releaseDraft: true
+          prerelease: false
+          releaseBody: |
+            Unofficial build of ZMK Studio from https://github.com/${{ github.repository }}.
+
+            These binaries are **not code-signed**. First launch:
+
+            - **macOS**: the DMG mounts normally, but opening the app shows "Apple could not verify…". Open *System Settings → Privacy & Security*, scroll down and click **Open Anyway**. Or run `xattr -cr "/Applications/ZMK Studio Dev.app"` once in Terminal.
+            - **Windows**: SmartScreen will warn. Click **More info → Run anyway**.
+            - **Linux**: `chmod +x` the AppImage, or install the `.deb`.
+
+            See the README for details and for the browser version, which needs no download.
           args: ${{ matrix.args }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: zmk-studio-${{ matrix.name }}
+          name: zmk-studio-dev-${{ matrix.name }}
           path: |
             src-tauri/target/release/bundle/**/*.deb
             src-tauri/target/release/bundle/**/*.AppImage
@@ -114,10 +111,3 @@ jobs:
             src-tauri/target/*/release/bundle/**/*.app
             src-tauri/target/release/bundle/**/*.msi
             src-tauri/target/release/bundle/**/*.exe
-  deploy-netlify:
-    if: github.event_name == 'release'
-    needs: publish-tauri
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Netlify
-        run: curl -X POST -d '{}' ${{ secrets.NETLIFY_DEPLOY_HOOK }}
