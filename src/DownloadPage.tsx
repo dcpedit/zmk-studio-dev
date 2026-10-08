@@ -61,19 +61,32 @@ const DownloadLinks: Record<string, DownloadLink> = {
     urlPattern: /.*\.dmg/,
   },
   linux_appimage: {
-    name: "Linux (AppImage)",
-    urlPattern: /.*\.AppImage/,
+    name: "Linux x64 (AppImage)",
+    urlPattern: /_amd64\.AppImage$/,
   },
   linux_deb: {
-    name: "Linux (deb)",
-    urlPattern: /.*\.deb/,
+    name: "Linux x64 (deb)",
+    urlPattern: /_amd64\.deb$/,
+  },
+  linux_appimage_arm64: {
+    name: "Linux arm64 (AppImage)",
+    urlPattern: /_aarch64\.AppImage$/,
+  },
+  linux_deb_arm64: {
+    name: "Linux arm64 (deb)",
+    urlPattern: /_arm64\.deb$/,
   },
 };
 
 const PlatformLinks: Record<Platform, DownloadLink[]> = {
   windows: [DownloadLinks.windows_exe, DownloadLinks.windows_msi],
   mac: [DownloadLinks.macos],
-  linux: [DownloadLinks.linux_appimage, DownloadLinks.linux_deb],
+  linux: [
+    DownloadLinks.linux_appimage,
+    DownloadLinks.linux_deb,
+    DownloadLinks.linux_appimage_arm64,
+    DownloadLinks.linux_deb_arm64,
+  ],
   ios: [],
   android: [],
   unknown: [],
