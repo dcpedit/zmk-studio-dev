@@ -5,15 +5,20 @@ use std::env;
 
 use futures::lock::Mutex;
 
+mod keymap_file;
 mod transport;
 use transport::commands::{transport_close, transport_send_data, ActiveConnection};
 
 use transport::gatt::{gatt_connect, gatt_list_devices};
 use transport::serial::{serial_connect, serial_list_devices};
 
+use keymap_file::{open_keymap_file, save_keymap_file};
+
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_cli::init())
+        // Native open/save dialogs for keymap import/export
+        .plugin(tauri_plugin_dialog::init())
         // Reopen the window at the size and position it was closed at
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .manage(ActiveConnection {
@@ -26,6 +31,8 @@ fn main() {
             gatt_connect,
             serial_list_devices,
             serial_connect,
+            save_keymap_file,
+            open_keymap_file,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
