@@ -12,7 +12,7 @@ import { useModalRef } from "./misc/useModalRef";
 import { LockStateContext } from "./rpc/LockStateContext";
 import { LockState } from "@zmkfirmware/zmk-studio-ts-client/core";
 import { ConnectionContext } from "./rpc/ConnectionContext";
-import { ChevronDown, Undo2, Redo2, Save, Trash2 } from "lucide-react";
+import { ChevronDown, Undo2, Redo2, Save, Trash2, FileDown, FileUp } from "lucide-react";
 import { Tooltip } from "./misc/Tooltip";
 import { GenericModal } from "./GenericModal";
 import { ThemePicker } from "./theme/ThemePicker";
@@ -58,6 +58,9 @@ export const AppHeader = ({
       setShowSettingsReset(false);
     }
   }, [lockState, showSettingsReset]);
+
+  const unlocked =
+    !!connectionState.conn && lockState == LockState.ZMK_STUDIO_CORE_LOCK_STATE_UNLOCKED;
 
   const showSettingsRef = useModalRef(showSettingsReset);
   const [unsaved, setUnsaved] = useConnectedDeviceData<boolean>(
@@ -170,23 +173,27 @@ export const AppHeader = ({
             <Trash2 className="inline-block w-4 mx-1" aria-label="Discard" />
           </Button>
         </Tooltip>
-        {onExportKeymap && (
-          <Button
-            className="flex items-center justify-center px-2 py-1 text-sm rounded enabled:hover:bg-base-300 disabled:opacity-50"
-            isDisabled={!connectedDeviceLabel}
-            onPress={onExportKeymap}
-          >
-            Download
-          </Button>
-        )}
         {onImportKeymap && (
-          <Button
-            className="flex items-center justify-center px-2 py-1 text-sm rounded enabled:hover:bg-base-300 disabled:opacity-50"
-            isDisabled={!connectedDeviceLabel}
-            onPress={onImportKeymap}
-          >
-            Upload
-          </Button>
+          <Tooltip label="Import keymap file">
+            <Button
+              className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
+              isDisabled={!unlocked}
+              onPress={onImportKeymap}
+            >
+              <FileUp className="inline-block w-4 mx-1" aria-label="Import keymap file" />
+            </Button>
+          </Tooltip>
+        )}
+        {onExportKeymap && (
+          <Tooltip label="Export keymap file">
+            <Button
+              className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
+              isDisabled={!unlocked}
+              onPress={onExportKeymap}
+            >
+              <FileDown className="inline-block w-4 mx-1" aria-label="Export keymap file" />
+            </Button>
+          </Tooltip>
         )}
       </div>
     </header>
