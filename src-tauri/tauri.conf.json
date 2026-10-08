@@ -6,8 +6,8 @@
     "devUrl": "http://localhost:5173",
     "frontendDist": "../dist/"
   },
-  "productName": "ZMK Studio Dev",
-  "mainBinaryName": "zmk-studio-dev",
+  "productName": "ZMK Studio DcpEdit",
+  "mainBinaryName": "zmk-studio-dcpedit",
   "version": "0.4.0",
   "identifier": "dev.dcpedit.zmk-studio",
   "bundle": {
@@ -69,7 +69,7 @@
         "minHeight": 600,
         "minWidth": 900,
         "resizable": true,
-        "title": "ZMK Studio Dev",
+        "title": "ZMK Studio DcpEdit",
         "width": 1280
       }
     ]

@@ -86,7 +86,7 @@ jobs:
           # Only create a release when building from a tag; branch builds just
           # upload workflow artifacts below.
           tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
-          releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('ZMK Studio Dev {0}', github.ref_name) || '' }}
+          releaseName: ${{ startsWith(github.ref, 'refs/tags/') && format('ZMK Studio DcpEdit {0}', github.ref_name) || '' }}
           releaseDraft: true
           prerelease: false
           releaseBody: |
@@ -94,7 +94,7 @@ jobs:
 
             These binaries are **not code-signed**. First launch:
 
-            - **macOS**: the DMG mounts normally, but opening the app shows "Apple could not verify…". Open *System Settings → Privacy & Security*, scroll down and click **Open Anyway**. Or run `xattr -cr "/Applications/ZMK Studio Dev.app"` once in Terminal.
+            - **macOS**: the DMG mounts normally, but opening the app shows "Apple could not verify…". Open *System Settings → Privacy & Security*, scroll down and click **Open Anyway**. Or run `xattr -cr "/Applications/ZMK Studio DcpEdit.app"` once in Terminal.
             - **Windows**: SmartScreen will warn. Click **More info → Run anyway**.
             - **Linux**: `chmod +x` the AppImage, or install the `.deb`.
 

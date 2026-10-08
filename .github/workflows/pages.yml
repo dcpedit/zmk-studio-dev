@@ -1,6 +1,6 @@
 name: "github-pages"
 
-# Deploys the browser version of ZMK Studio Dev to GitHub Pages.
+# Deploys the browser version of ZMK Studio DcpEdit to GitHub Pages.
 # The web app talks to keyboards over Web Serial / Web Bluetooth, so no
 # download is needed in Chrome or Edge.
 #

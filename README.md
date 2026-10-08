@@ -1,4 +1,4 @@
-# ZMK Studio Dev
+# ZMK Studio DcpEdit
 
 An **unofficial fork** of [ZMK Studio](https://github.com/zmkfirmware/zmk-studio), the
 graphical keymap editor for [ZMK Firmware](https://zmk.dev). It tracks upstream and adds
@@ -40,14 +40,14 @@ The binaries are **not code-signed**, so each OS will warn you once:
   click **Open Anyway**. Alternatively run this once in Terminal:
 
   ```bash
-  xattr -cr "/Applications/ZMK Studio Dev.app"
+  xattr -cr "/Applications/ZMK Studio DcpEdit.app"
   ```
 
 - **Windows:** SmartScreen will say the publisher is unknown. Click **More info**, then
   **Run anyway**.
 - **Linux:** `chmod +x` the AppImage and run it, or install the `.deb`.
 
-The app installs as "ZMK Studio Dev" with its own bundle identifier, so it can live
+The app installs as "ZMK Studio DcpEdit" with its own bundle identifier, so it can live
 alongside the official ZMK Studio without overwriting it.
 
 Your keyboard needs firmware built with
