@@ -36,3 +36,6 @@ custom-protocol = [ "tauri/custom-protocol" ]
 [target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
 tauri-plugin-cli = "2.0.0"
 tauri-plugin-window-state = "=2.0.0"
+tauri-plugin-dialog = "=2.0.0"
+# Keep the dialog plugin's fs dependency on the same release as tauri itself.
+tauri-plugin-fs = "=2.0.0"
